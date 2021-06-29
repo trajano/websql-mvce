@@ -113,4 +113,57 @@ const callbackHell2 = async () =>
     });
   });
 
-setTimeout(callbackHell2, 0);
+const asyncAwaitJustDb = async () => {
+  const db = await openDatabaseAsync("mydb.db", "1.0");
+  await new Promise<void>((resolve, reject) => {
+    db.transaction(
+      (tx: any) => {
+        tx.executeSql(
+          sql1,
+          [],
+          (tx1: any, rs: any) => {
+            tx1.executeSql(
+              sql2,
+              [],
+              (tx2: any, rs: any) => {
+                tx2.executeSql(
+                  sql3,
+                  [],
+                  (tx3: any, rs: any) => {
+                    console.log(rs.rows.item(0));
+                  },
+                  (err: any) => {
+                    console.error("ERROR " + sql3, err);
+                    reject(err);
+                    return true;
+                  }
+                );
+              },
+              (err: any) => {
+                console.error("ERROR " + sql2, err);
+                reject(err);
+                return true;
+              }
+            );
+          },
+          (err: any) => {
+            console.error("ERROR " + sql1, err);
+            reject(err);
+            return true;
+          }
+        );
+      },
+      (err: any) => {
+        console.error("ERROR", err);
+        reject(err);
+        return true;
+      },
+      () => {
+        console.error("Success");
+        resolve();
+      }
+    );
+  });
+};
+
+setTimeout(asyncAwaitJustDb, 0);
