@@ -209,13 +209,16 @@ const asyncAwaitTransactionButNotExecute = async () => {
   });
 };
 
+// This does not work, it only shows the first "rs" but does not do the other two.
 const asyncAwait = async () => {
   const db = await openDatabaseAsync("mydb.db", "1.0");
   await db.txn(async (tx) => {
-    await tx.q(sql1);
-    await tx.q(sql2);
-    const rs = await tx.r(sql3);
-    console.log("rs", rs);
+    const rs1 = await tx.q(sql1);
+    console.log("rs", rs1);
+    const rs2 = await tx.q(sql2);
+    console.log("rs", rs1, rs2);
+    const rs3 = await tx.r(sql3);
+    console.log("rs", rs1, rs2, rs3);
   });
 };
 
