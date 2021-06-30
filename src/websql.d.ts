@@ -27,14 +27,14 @@ declare module "websql" {
 
   declare class WebSQLDatabase {
     transaction(
-      callback: SQLite.SQLTransactionCallback,
-      errorCallback?: SQLite.SQLTransactionErrorCallback,
-      successCallback?: SQLite.SQLVoidCallback
+      callback: SQLTransactionCallback,
+      errorCallback?: SQLTransactionErrorCallback,
+      successCallback?: SQLVoidCallback
     );
     readTransaction(
-      callback: SQLite.SQLTransactionCallback,
-      errorCallback?: SQLite.SQLTransactionErrorCallback,
-      successCallback?: SQLite.SQLVoidCallback
+      callback: SQLTransactionCallback,
+      errorCallback?: SQLTransactionErrorCallback,
+      successCallback?: SQLVoidCallback
     );
   }
 
